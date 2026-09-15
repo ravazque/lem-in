@@ -7,10 +7,13 @@ lib/.bonus
 
 # Binaries
 lem-in
-visu
 
-# Generated visualizer page
-lem-in-visu.html
+# Bonus: launcher link created by `make bonus`, python caches
+/visu-hex
+__pycache__/
+
+# Stress colonies written by `make maps`
+maps/stress/generated/
 
 # IDE / Editor
 .vscode/

@@ -16,13 +16,13 @@
 void	assign_ants(t_lem_in *lem)
 {
 	t_path	*p;
-	int		base;
+	long	base;
 
 	base = 1;
 	p = lem->paths;
 	while (p)
 	{
-		p->first_ant = base;
+		p->first_ant = (int)base;
 		base += p->ants_assigned;
 		p = p->next;
 	}
@@ -96,8 +96,9 @@ void	simulate(t_lem_in *lem)
 	p = lem->paths;
 	while (p)
 	{
-		if (p->ants_assigned > 0 && p->ants_assigned + p->len - 1 > turns)
-			turns = p->ants_assigned + p->len - 1;
+		if (p->ants_assigned > 0
+			&& (long)p->ants_assigned + p->len - 1 > turns)
+			turns = (long)p->ants_assigned + p->len - 1;
 		p = p->next;
 	}
 	t = 0;

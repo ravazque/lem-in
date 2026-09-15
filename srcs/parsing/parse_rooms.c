@@ -39,21 +39,32 @@ static int	push_room(t_graph *graph, t_room *room)
 	return (1);
 }
 
-static int	valid_coord(char *s)
+/* Signed decimal that fits an int; anything else, overflow included, fails. */
+static int	to_coord(const char *s, int *out)
 {
-	int	i;
+	int		i;
+	int		neg;
+	long	n;
 
 	i = 0;
+	neg = (s[0] == '-');
 	if (s[0] == '-' || s[0] == '+')
 		i++;
 	if (!s[i])
 		return (0);
+	n = 0;
 	while (s[i])
 	{
 		if (s[i] < '0' || s[i] > '9')
 			return (0);
+		n = n * 10 + (s[i] - '0');
+		if (n > (long)INT_MAX + neg)
+			return (0);
 		i++;
 	}
+	if (neg)
+		n = -n;
+	*out = (int)n;
 	return (1);
 }
 
@@ -62,8 +73,6 @@ static int	valid_fields(char **elems)
 	if (!elems || !elems[0] || !elems[1] || !elems[2] || elems[3])
 		return (0);
 	if (elems[0][0] == 'L')
-		return (0);
-	if (!valid_coord(elems[1]) || !valid_coord(elems[2]))
 		return (0);
 	return (1);
 }
@@ -81,11 +90,10 @@ static t_room	*new_room(char *line, int id)
 		return (free_split(elems), NULL);
 	room->id = id;
 	room->name = ft_strdup(elems[0]);
-	room->x = ft_atoi(elems[1]);
-	room->y = ft_atoi(elems[2]);
+	if (!room->name || !to_coord(elems[1], &room->x)
+		|| !to_coord(elems[2], &room->y))
+		return (free_split(elems), free(room->name), free(room), NULL);
 	free_split(elems);
-	if (!room->name || room->x < 0 || room->y < 0)
-		return (free(room), NULL);
 	return (room);
 }
 

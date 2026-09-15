@@ -1,0 +1,16 @@
+4
+##start
+s 0 0
+##end
+e 9 0
+a 3 0
+b 6 0
+c 3 4
+s-a
+s-a
+a-s
+a-b
+b-e
+b-e
+s-c
+c-e

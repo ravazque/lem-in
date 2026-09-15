@@ -14,6 +14,7 @@
 # define LEM_IN_H
 
 # include "../lib/libft.h"
+# include <limits.h>
 
 # define HASH_SIZE 1024
 # define ROOMS_INIT_CAP 64
@@ -67,7 +68,8 @@ typedef struct s_path
 	struct s_path	*next;
 }	t_path;
 
-/* Residual edge; forward and reverse are linked through ->rev. */
+/* Residual graph: edges paired with their reverse, the Dijkstra scratch state
+** and one flow decomposition (route nodes, rooms taken, endpoints). */
 typedef struct s_edge
 {
 	int				to;
@@ -77,7 +79,6 @@ typedef struct s_edge
 	struct s_edge	*next;
 }	t_edge;
 
-/* Scratch state reused by every Dijkstra pass over the residual graph. */
 typedef struct s_flow
 {
 	t_edge	**parent;
@@ -93,7 +94,6 @@ typedef struct s_flow
 	int		sink;
 }	t_flow;
 
-/* One flow decomposition: route nodes, rooms already taken, endpoints. */
 typedef struct s_decomp
 {
 	int		*nodes;
@@ -126,7 +126,6 @@ typedef struct s_input
 	int				capacity;
 }	t_input;
 
-/* Output buffer flushed to stdout every OUT_BUF bytes. */
 typedef struct s_buf
 {
 	char			*data;

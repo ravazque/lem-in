@@ -1,0 +1,13 @@
+4
+##start
+start -3 0
+##end
+end 3 0
+north -1 2
+south -1 -2
+east 1 -1
+start-north
+north-end
+start-south
+south-east
+east-end

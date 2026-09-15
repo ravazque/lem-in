@@ -12,7 +12,6 @@
 
 #include "lem_in.h"
 
-/* A saturated forward edge carries one unit of flow; the sink is shared. */
 static t_edge	*find_flow_edge(t_graph *g, int node, t_decomp *d)
 {
 	t_edge	*e;
@@ -28,7 +27,7 @@ static t_edge	*find_flow_edge(t_graph *g, int node, t_decomp *d)
 	return (NULL);
 }
 
-/* Walks the route leaving src through d->cur, marking the rooms it takes. */
+/* Follows saturated forward edges from d->cur to the sink, marking rooms. */
 static int	walk_flow(t_graph *g, t_decomp *d)
 {
 	t_edge	*e;
@@ -77,7 +76,6 @@ static t_path	*build_path(int *nodes, int n)
 	return (path);
 }
 
-/* One route per saturated edge leaving src; the cursor never reuses one. */
 static t_path	*collect(t_lem_in *lem, t_decomp *d)
 {
 	t_path	*head;
@@ -103,7 +101,7 @@ static t_path	*collect(t_lem_in *lem, t_decomp *d)
 	return (head);
 }
 
-/* Splits the flow into routes without consuming it, so it can keep growing. */
+/* Reads the routes out of the flow without consuming it, one per src edge. */
 t_path	*extract_paths(t_lem_in *lem)
 {
 	t_decomp	d;

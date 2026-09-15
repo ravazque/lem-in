@@ -27,10 +27,7 @@ static void	augment(t_flow *f)
 	}
 }
 
-/*
-** No set of flow routes can beat ceil(ants / flow) + lmin - 1 turns, so a
-** flow value that cannot reach the current best is never decomposed.
-*/
+/* A flow value that cannot beat the best turn count is never decomposed. */
 static int	worth_trying(t_lem_in *lem, int flow, long best, long lmin)
 {
 	long	bound;
@@ -58,11 +55,8 @@ static void	keep_best(t_lem_in *lem, int flow, long *best)
 	lem->num_paths = flow;
 }
 
-/*
-** Min-cost max-flow from out(start) to in(end). Each pass adds one
-** room-disjoint route keeping the total length minimal; the flow value that
-** finishes in the fewest turns is the one left in lem->paths.
-*/
+/* Min-cost max-flow out(start) -> in(end): each pass adds one room-disjoint
+** route; the flow value finishing in the fewest turns stays in lem->paths. */
 int	algorithm(t_lem_in *lem)
 {
 	t_flow	f;

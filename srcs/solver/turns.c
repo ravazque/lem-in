@@ -12,7 +12,6 @@
 
 #include "lem_in.h"
 
-/* Ants the first num_paths routes can deliver by turn t. */
 static long	capacity(t_path *paths, int num_paths, long t)
 {
 	long	sum;
@@ -47,7 +46,7 @@ static long	min_len(t_path *paths, int num_paths)
 	return (best);
 }
 
-/* Fewest turns for num_ants over these routes, binary searched on capacity. */
+/* Fewest turns for num_ants: binary search on the ants delivered by turn t. */
 long	calc_turns(t_path *paths, int num_paths, int num_ants)
 {
 	long	lo;
@@ -67,7 +66,6 @@ long	calc_turns(t_path *paths, int num_paths, int num_ants)
 	return (lo);
 }
 
-/* Route i can hold turns - len + 1 ants; returns how many are in excess. */
 static long	fill_counts(t_path **arr, int k, long turns, int num_ants)
 {
 	long	total;
@@ -86,8 +84,8 @@ static long	fill_counts(t_path **arr, int k, long turns, int num_ants)
 	return (total - num_ants);
 }
 
-/* Fills every route to the turn limit, then drops the surplus from the
-** longest ones, which is the same split a one-ant-at-a-time greedy gives. */
+/* Fills every route to the turn limit and drops the surplus from the longest
+** ones, which is the split a one-ant-at-a-time greedy would reach. */
 void	assign_counts(t_lem_in *lem, t_path **arr, int k)
 {
 	long	extra;

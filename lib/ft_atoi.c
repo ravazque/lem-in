@@ -33,9 +33,9 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		n = n * 10 + str[i] - '0';
+		if (n > INT_MAX)
+			return (-1);
 		i++;
 	}
-	if (n < INT_MIN || n > INT_MAX)
-		return (-1);
 	return ((int)(n * sign));
 }

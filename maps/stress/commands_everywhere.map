@@ -1,0 +1,27 @@
+#a comment before the ant count
+##visu speed=3 view=lanes
+6
+##colour red
+##start
+#comment right after a command
+s 0 0
+##end
+##end_is_already_set_above_but_this_is_a_comment
+e 12 0
+##level 2
+a 4 1
+#tunnels now
+b 8 1
+##loud
+c 4 3
+##x
+d 8 3
+s-a
+#c
+a-b
+b-e
+##y
+s-c
+c-d
+d-e
+#the end

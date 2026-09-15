@@ -47,6 +47,21 @@ int	add_edge(t_graph *graph, int from, int to, int cap)
 	return (1);
 }
 
+static int	has_edge(t_graph *graph, int from, int to)
+{
+	t_edge	*e;
+
+	e = graph->adj[from];
+	while (e)
+	{
+		if (!e->is_rev && e->to == to)
+			return (1);
+		e = e->next;
+	}
+	return (0);
+}
+
+/* A tunnel declared twice is still one tunnel: one ant per turn through it. */
 void	graph_init(t_lem_in *lem)
 {
 	t_graph	*graph;
@@ -64,8 +79,9 @@ void	graph_init(t_lem_in *lem)
 	{
 		from = graph->links[i].from;
 		to = graph->links[i].to;
-		if (!add_edge(graph, from * 2 + 1, to * 2, 1)
-			|| !add_edge(graph, to * 2 + 1, from * 2, 1))
+		if (!has_edge(graph, from * 2 + 1, to * 2)
+			&& (!add_edge(graph, from * 2 + 1, to * 2, 1)
+				|| !add_edge(graph, to * 2 + 1, from * 2, 1)))
 			error_exit(lem);
 		i++;
 	}

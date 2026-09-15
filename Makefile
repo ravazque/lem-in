@@ -1,7 +1,8 @@
 MAKEFLAGS	+= --no-print-directory
 
 NAME		= lem-in
-VISU		= visu
+VISU		= visu-hex
+VISU_SRC	= bonus/visu-hex
 
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -O0
@@ -37,11 +38,6 @@ SRCS		= srcs/main.c \
 
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-VISU_SRCS	= srcs/bonus/visu.c \
-			  srcs/bonus/visu_write.c
-
-VISU_OBJS	= $(VISU_SRCS:%.c=$(OBJ_DIR)/%.o)
-
 LIBFT_SRC	= $(addprefix $(LIBFT_DIR)/, \
 				  ft_memset.c ft_bzero.c ft_strlen.c ft_atoi.c ft_isdigit.c \
 				  ft_isalpha.c ft_isprint.c ft_isascii.c ft_isalnum.c ft_memchr.c \
@@ -57,20 +53,23 @@ all: $(NAME)
 $(LIBFT): $(LIBFT_SRC)
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# $(LIBFT): $(LIBFT_SRC)
-# 	@$(MAKE) -C $(LIBFT_DIR) > /dev/null
-
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@printf "$(CYAN)Ready!$(RESET)\n"
 
 bonus: $(NAME) $(VISU)
 
-$(VISU): $(LIBFT) $(VISU_OBJS)
-	@$(CC) $(CFLAGS) $(VISU_OBJS) $(LIBFT) -o $(VISU)
-	@printf "$(CYAN)Visualizer ready! ./lem-in < map | ./$(VISU)$(RESET)\n"
+$(VISU): $(VISU_SRC)
+	@chmod +x $(VISU_SRC)
+	@ln -sf $(VISU_SRC) $(VISU)
+	@python3 -c "import tkinter" >/dev/null 2>&1 \
+		&& printf "$(CYAN)Visualizer ready! ./lem-in < map | ./$(VISU)$(RESET)\n" \
+		|| printf "$(RED)python3 cannot import tkinter: install Tk (python3-tk / tk)$(RESET)\n"
 
-$(OBJ_DIR)/%.o: %.c include/lem_in.h include/visu.h lib/libft.h
+maps:
+	@python3 maps/stress/generate.py
+
+$(OBJ_DIR)/%.o: %.c include/lem_in.h lib/libft.h
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
@@ -82,16 +81,8 @@ clean:
 fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@rm -f $(NAME) $(VISU)
-
-# clean:
-# 	@printf "$(RED)Cleaning...$(RESET)\n"
-# 	@$(MAKE) -C $(LIBFT_DIR) clean > /dev/null 2>&1
-# 	@rm -rf $(OBJ_DIR)
-
-# fclean: clean
-# 	@$(MAKE) -C $(LIBFT_DIR) fclean > /dev/null 2>&1
-# 	@rm -f $(NAME) $(VISU)
+	@find bonus -name __pycache__ -type d -exec rm -rf {} +
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus maps clean fclean re
