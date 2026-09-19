@@ -1,7 +1,3 @@
-*This project has been created as part of the 42 curriculum by ravazque and acerezo-.*
-
----
-
 # lem-in
 
 lem-in is a digital ant farm written in **C**. It reads a colony on standard
@@ -159,9 +155,7 @@ make bonus
 ./lem-in < maps/stress/big_superposition.map | ./visu-hex --speed 8 # big: 164 ants, 2 893 rooms
 ```
 
-Drop the `| ./visu-hex` to see the raw output; the two generator maps carry the
-number of lines the subject's generator expected in a comment on their second
-line, to compare with `./lem-in < map | sed '1,/^$/d' | wc -l`.
+Drop the `| ./visu-hex` to see the raw output.
 
 ## What gets rejected
 
@@ -211,7 +205,7 @@ corridor and the 5 000 disjoint routes about one.
   minimise the turn on which the last ant arrives.
 - **Output** — the map, a blank line, then one line of `Lx-room` tokens per
   turn, flushed in fixed-size blocks.
-- **Bonus** — a curses visualizer that replays, validates and animates the run.
+- **Bonus** — a tkinter visualizer that replays, validates and animates the run.
 
 ## References
 
@@ -234,4 +228,4 @@ Algorithms:
 
 Bonus:
 
-- Python `curses` — <https://docs.python.org/3/howto/curses.html>
+- Python `tkinter` — <https://docs.python.org/3/library/tkinter.html>

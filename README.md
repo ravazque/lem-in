@@ -148,25 +148,6 @@ make maps                               # writes the large colonies to maps/stre
 time ./lem-in < maps/stress/generated/dense_4000.map > /dev/null
 ```
 
-### The subject's generator
-
-The generator handed out with the correction sheet writes the expected number
-of lines as a comment. Comparing it with the lines actually printed:
-
-```bash
-./generator --big-superposition > big.map
-grep required big.map                   # "#Here is the number of lines required: 76"
-./lem-in < big.map | sed '1,/^$/d' | wc -l   # 74
-```
-
-On `--flow-*` and `--big-superposition` the program always matches or beats the
-generator (hundreds of seeds each). On `--big` about one map in a hundred comes
-out one to three lines above it: those estimates are unattainable — a
-time-expanded max-flow that even lets ants wait and share rooms at different
-times proves no schedule exists in fewer turns — so the difference is the
-generator's, not the solver's. The same check on every other map tried, random
-colonies included, never found a schedule shorter than the one printed.
-
 <br>
 
 </details>
@@ -427,7 +408,7 @@ through a 64 KB buffer flushed whenever it fills.
 </details>
 
 <details>
-<summary><strong>🐜 Bonus — visu-hex, a tkinter visualizer</strong></summary>
+<summary><strong>🐜 Bonus</strong></summary>
 
 <br>
 
